@@ -1,4 +1,4 @@
-function uncompressed = uncompress(compressed)
+function uncompressed = uncompress(compressed, wavfile)
     
     %Add the the other compressed half
     uncompressedlen = 2*(length(compressed) - 1);
@@ -8,5 +8,9 @@ function uncompressed = uncompress(compressed)
 
     %Use the ifft to recover it
     uncompressed = ifft(uncompressed);
+    
+    %Remake the wav file
+    filename = strcat(strcat("../resources/", wavfile), "_recompressed.wav");
+    wavwrite(uncompressed, filename);
 
 endfunction
