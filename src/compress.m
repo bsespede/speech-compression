@@ -10,7 +10,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function compressed = compress(wavfile, epsilon, L)
+function [compressed, scaled] = compress(wavfile, epsilon, L)
 
     %Open wav file
     filename = strcat(strcat("../resources/wav/", wavfile), ".wav");
@@ -46,9 +46,20 @@ function compressed = compress(wavfile, epsilon, L)
     imaglevel = (maximag - minimag) / scale;
 
     for j = 1:trunclen
-        realpart = minreal + floor((realcoeffs(j) - minreal) / reallevel) * reallevel;
-        imagpart = minimag + floor((imagcoeffs(j) - minimag) / imaglevel) * imaglevel;
+        realscale = floor((realcoeffs(j) - minreal) / reallevel);
+        if (realscale == scale)
+            realscale = realscale-1;
+        endif
+        imagscale = floor((imagcoeffs(j) - minimag) / imaglevel);
+        if (imagscale == scale)
+            imagscale = imagscale-1;
+        endif
+        
+        realpart = minreal + realscale * reallevel;
+        imagpart = minimag + imagscale * imaglevel;
+        
         compressed(j) = realpart + i*imagpart;
+        scaled(j) = realscale + i*imagscale;
     endfor
 
 endfunction
