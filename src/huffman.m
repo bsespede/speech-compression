@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-%	Argumentos de entrada
+% Argumentos de entrada
 %	X = parte de la transformada de Fourier cuantizada y truncada
 %	que se comprimira
 %	L = numero de bits de la cuantizacion
@@ -9,7 +9,7 @@
 %	lencomp = estimacion de la longitud luego de la cuantizacion
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function lencomp = complen(X,L)
+function lencomp = huffman(X,L)
 
 	n = length(X);
 	r = real(X);

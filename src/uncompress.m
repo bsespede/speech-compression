@@ -1,3 +1,14 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Input
+%	compressed = compressed coeffs from compress function
+%	wavfile = name of the output wav file in resources folder
+%
+%	Output
+%	uncompressed = original audio
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 function uncompressed = uncompress(compressed, wavfile)
     
     %Add the the other compressed half
@@ -10,7 +21,7 @@ function uncompressed = uncompress(compressed, wavfile)
     uncompressed = ifft(uncompressed);
     
     %Remake the wav file
-    filename = strcat(strcat("../resources/", wavfile), "_recompressed.wav");
+    filename = strcat(strcat("../resources/wav/recompressed/", wavfile), "_recompressed.wav");
     wavwrite(uncompressed, filename);
 
 endfunction

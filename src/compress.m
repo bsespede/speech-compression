@@ -1,7 +1,19 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Input
+%	wavfile = name of the input wav file in resources folder
+% epsilon = small value to remove noise
+%	L = number of bits for quantization
+%
+%	Output
+%	compressed = compressed audio
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 function compressed = compress(wavfile, epsilon, L)
 
     %Open wav file
-    filename = strcat(strcat("../resources/", wavfile), ".wav");
+    filename = strcat(strcat("../resources/wav/", wavfile), ".wav");
     [y, fs, nbits] = wavread(filename);
 
     %Calculate FFT coeffs
@@ -24,14 +36,14 @@ function compressed = compress(wavfile, epsilon, L)
     realcoeffs = real(coeffs);
     imagcoeffs = imag(coeffs);
 
-    minreal = min(realcoeffs)
-    maxreal = max(realcoeffs)
+    minreal = min(realcoeffs);
+    maxreal = max(realcoeffs);
 
-    minimag = min(imagcoeffs)
-    maximag = max(imagcoeffs)
+    minimag = min(imagcoeffs);
+    maximag = max(imagcoeffs);
 
-    reallevel = (maxreal - minreal) / scale 
-    imaglevel = (maximag - minimag) / scale    
+    reallevel = (maxreal - minreal) / scale;
+    imaglevel = (maximag - minimag) / scale;
 
     for j = 1:trunclen
         realpart = minreal + floor((realcoeffs(j) - minreal) / reallevel) * reallevel;
