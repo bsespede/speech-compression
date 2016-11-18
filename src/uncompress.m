@@ -9,20 +9,20 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function uncompressed = uncompress(compressed, wavfile)
+function uncompressed = uncompress(compressed, wav_file)
     
     %Add the the other compressed half
-    compressedlen = length(compressed);
-    uncompressedlen = 2*(compressedlen - 1);
-    for j = 1:(compressedlen-1)
-      compressed(uncompressedlen - j) = conj(compressed(j));
+    compressed_length = length(compressed);
+    uncompressed_length = 2*(compressed_length - 1);
+    for j = 1:(compressed_length - 1)
+      compressed(uncompressed_length - j) = conj(compressed(j));
     end
 
     %Use the ifft to recover it
     uncompressed = ifft(compressed);
     
     %Remake the wav file
-    filename = strcat(strcat("../resources/wav/recompressed/", wavfile), "_recompressed.wav");
-    wavwrite(uncompressed, filename);
+    file_name = strcat(strcat("../resources/wav/recompressed/", wav_file), "_recompressed.wav");
+    wavwrite(uncompressed, file_name);
 
 endfunction

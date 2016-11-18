@@ -9,7 +9,7 @@
 %	lencomp = estimacion de la longitud luego de la cuantizacion
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [lencomp, symbols, freq] = huffman(X,L)
+function lencomp = huffman(X,L)
 
 	n = length(X);
 	r = real(X);
@@ -20,6 +20,8 @@ function [lencomp, symbols, freq] = huffman(X,L)
   freq = hist(c,symbols);
   p = freq/sum(freq);
 
+  symbols
+  p
 	dict = huffmandict(symbols, p);
 	lencomp = 0;
 

@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Input
-%	wavfile = name of the input wav file in resources folder
+%	wav_file = name of the input wav file in resources folder
 % epsilon = small value to remove noise
 %	L = number of bits for quantization
 %
@@ -11,29 +11,31 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [distortion, compression] = stats(wavfile, epsilon, L)
+function [distortion, compression] = stats(wav_file, epsilon, L)
 
   %Original, compressed and uncompressed file
-  filename = strcat(strcat("../resources/wav/", wavfile), ".wav");
+  file_name = strcat(strcat("../resources/wav/", wav_file), ".wav");
   
-  [original, fs, nbits] = wavread(filename);
-  [compressed, scale] = compress(wavfile, epsilon, L);
-  uncompressed = uncompress(compressed, wavfile);
+  [original, fs, n_bits] = wavread(file_name);
+  [compressed, scale] = compress(wav_file, epsilon, L);
+  uncompressed = uncompress(compressed, wav_file);
   
   %Calculate distortion
-  originallength = length(original);
-  uncompressedlength = length(uncompressed);
+  original_length = length(original);
+  uncompressed_length = length(uncompressed);
   
-  if (originallength > uncompressedlength)
-    original = original(1:uncompressedlength);
-  elseif (originallength < uncompressedlength)
-    uncompressedlength = uncompressed(1:originallength);
+  if (original_length > uncompressed_length)
+    original = original(1:uncompressed_length);
+  elseif (original_length < uncompressed_length)
+    uncompressed_length = uncompressed(1:original_length);
   endif    
   
   distortion = (real(original) - real(uncompressed)).^2;
   distortion = sum(distortion(:)) / length(distortion);
   
   %Calculate compression factor
-  compression = huffman(scale, L) / nbits;
+  [info, err, msg] = lstat(file_name);
+  file_size = info.size * n_bits;
+  compression = huffman(scale, L) / file_size;
   
 endfunction

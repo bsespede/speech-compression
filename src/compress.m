@@ -1,20 +1,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Input
-%	wavfile = name of the input wav file in resources folder
+%	wav_file = name of the input wav file in resources folder
 % epsilon = small value to remove noise
 %	L = number of bits for quantization
 %
 %	Output
-%	compressed = compressed audio
+%	compressed = compressed audio, truncated and quantized
+%	scaled = compressed audio scaled to the bit number
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [compressed, scaled] = compress(wavfile, epsilon, L)
+function [compressed, scaled] = compress(wav_file, epsilon, L)
 
     %Open wav file
-    filename = strcat(strcat("../resources/wav/", wavfile), ".wav");
-    [y, fs, nbits] = wavread(filename);
+    file_name = strcat(strcat("../resources/wav/", wav_file), ".wav");
+    [y, fs, nbits] = wavread(file_name);
 
     %Calculate FFT coeffs
     coeffs = fft(y);
@@ -33,33 +34,33 @@ function [compressed, scaled] = compress(wavfile, epsilon, L)
     %https://www.youtube.com/watch?v=z2R8c5945p0
     scale = 2^L;
 
-    realcoeffs = real(coeffs);
-    imagcoeffs = imag(coeffs);
+    real_coeffs = real(coeffs);
+    imag_coeffs = imag(coeffs);
 
-    minreal = min(realcoeffs);
-    maxreal = max(realcoeffs);
+    min_real = min(real_coeffs);
+    max_real = max(real_coeffs);
 
-    minimag = min(imagcoeffs);
-    maximag = max(imagcoeffs);
+    min_imag = min(imag_coeffs);
+    max_imag = max(imag_coeffs);
 
-    reallevel = (maxreal - minreal) / scale;
-    imaglevel = (maximag - minimag) / scale;
+    real_level = (max_real - min_real) / scale;
+    imag_level = (max_imag - min_imag) / scale;
 
     for j = 1:trunclen
-        realscale = floor((realcoeffs(j) - minreal) / reallevel);
-        if (realscale == scale)
-            realscale = realscale-1;
+        real_scale = floor((real_coeffs(j) - min_real) / real_level);
+        if (real_scale == scale)
+            real_scale = real_scale - 1;
         endif
-        imagscale = floor((imagcoeffs(j) - minimag) / imaglevel);
-        if (imagscale == scale)
-            imagscale = imagscale-1;
+        imag_scale = floor((imag_coeffs(j) - min_imag) / imag_level);
+        if (imag_scale == scale)
+            imag_scale = imag_scale - 1;
         endif
         
-        realpart = minreal + realscale * reallevel;
-        imagpart = minimag + imagscale * imaglevel;
+        real_part = min_real + real_scale * real_level;
+        imag_part = min_imag + imag_scale * imag_level;
         
-        compressed(j) = realpart + i*imagpart;
-        scaled(j) = realscale + i*imagscale;
+        compressed(j) = real_part + i*imag_part;
+        scaled(j) = real_scale + i*imag_scale;
     endfor
 
 endfunction
