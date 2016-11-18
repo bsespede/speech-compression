@@ -20,9 +20,7 @@ function lencomp = huffman(X,L)
   freq = hist(c,symbols);
   p = freq/sum(freq);
 
-  symbols
-  p
-	dict = huffmandict(symbols, p);
+	dict = myhuffmandict(symbols', p);
 	lencomp = 0;
 
 	%Le tengo que sumar al diccionario
