@@ -17,6 +17,9 @@ function lencomp = huffman(X,L)
 
 	c = [r;i];
 	symbols = unique(c);
+  freq = hist(c,symbols);
+  p = freq/sum(freq);
+
 	dict = huffmandict(symbols, p);
 	lencomp = 0;
 

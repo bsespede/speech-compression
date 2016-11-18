@@ -30,10 +30,12 @@ function [distortion, compression] = stats(wavfile, epsilon, L)
     uncompressedlength = uncompressed(1:originallength);
   endif    
   
+  %real(original)
+  %real(uncompressed)
   distortion = (real(original) - real(uncompressed)).^2;
-  distortion = sum(distortion)/length(distortion);
+  distortion = sum(distortion(:)) / length(distortion);
   
   %Calculate compression factor
-  compression = huffman(compressed, L) / nbits;
+  %compression = huffman(compressed, L) / nbits;
   
 endfunction
