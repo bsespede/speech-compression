@@ -81,8 +81,24 @@ Para recuperar la grabación, hace falta de-codificar la información generada p
 \section{Ejemplo compresión y descompresión}
 Para realizar la compresión y descompresión de un archivo de sonido, abrir octave dentro del directorio \textit{src} del proyecto y ejecutar lo siguiente:
 \begin{lstlisting}
-    [compressed, scale] = 
+    wav_name = "01"
+    epsilon = 0.1
+    L = 16
+    [compressed, scale] = compress(wav_name, epsilon, L)
 \end{lstlisting}
+
+Siendo:
+\begin{enumerate}
+    \item $wav_name$ el nombre del archivo dentro de resources/wav a comprimir
+    \item $epsilon$ el valor a utilizar para eliminar ruido
+    \item $L$ el número de bits a utilizar en la quantización
+\end{enumerate}
+En \textit{compressed} obtenemos el wav comprimido, cuantizado y truncado que luego puede ser descomprimido mediante el siguiente código:
+\begin{lstlisting}
+    wav_name = "01" % 01_recompressed.wav
+    uncompressed(compressed, "01")
+\end{lstlisting}
+Tras
 \begin{equation}
 \label{eq:dct}
 F_{u,v} =
