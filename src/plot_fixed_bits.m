@@ -23,13 +23,13 @@ function plot_fixed_bits(wav_file, min_epsilon, steps, max_epsilon, L)
   %Make the png plot
   plot(epsilons, distortions);
   xlabel("Epsilons");
-  ylabel("Distorcion");
+  ylabel("Distorción");
   file_name = strcat(strcat("../resources/plots/",wav_file),"_epsi_distortion.png");
   print(file_name, "-dpng");
   
   plot(epsilons, compressions);
   xlabel("Epsilons");
-  ylabel("Factor de compresion");
+  ylabel("Factor de compresión");
   file_name = strcat(strcat("../resources/plots/",wav_file),"_epsi_compression.png");
   print(file_name, "-dpng");
   
