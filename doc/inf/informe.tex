@@ -81,198 +81,89 @@ Para recuperar la grabación, hace falta de-codificar la información generada p
 \section{Ejemplo compresión y descompresión}
 Para realizar la compresión y descompresión de un archivo de sonido, abrir octave dentro del directorio \textit{src} del proyecto y ejecutar lo siguiente:
 \begin{lstlisting}
-    wav_name = "01"
+    wavName = "01"
     epsilon = 0.1
     L = 16
-    [compressed, scale] = compress(wav_name, epsilon, L)
+    [compressed, scale] = compress(wavName, epsilon, L)
 \end{lstlisting}
 
 Siendo:
 \begin{enumerate}
     \item $wav_name$ el nombre del archivo dentro de resources/wav a comprimir
     \item $epsilon$ el valor a utilizar para eliminar ruido
-    \item $L$ el número de bits a utilizar en la quantización
+    \item $L$ el número de bits a utilizar en la cuantización
 \end{enumerate}
 En \textit{compressed} obtenemos el wav comprimido, cuantizado y truncado que luego puede ser descomprimido mediante el siguiente código:
 \begin{lstlisting}
     wav_name = "01" % 01_recompressed.wav
     uncompressed(compressed, "01")
 \end{lstlisting}
-Tras
-\begin{equation}
-\label{eq:dct}
-F_{u,v} =
- C_{u} C_{v} \sum_{x=0}^{N-1}
- \sum_{y=0}^{N-1}
- p_{x,y}
-\cos \left[\frac{\pi \left(2 x + 1\right) u}{2 N} \right]
-\cos \left[\frac{\pi \left(2 y + 1\right) v}{2 N} \right]
-\end{equation}
-Fórmula de la transformada discreta inversa de coseno\cite{mathworks_DCT}:
-\begin{equation}
-\label{eq:idct}
-P_{x,y} =
- \sum_{u=0}^{N-1}
- \sum_{v=0}^{N-1}
- C_{u} C_{v}
- f_{u,v}
-\cos \left[\frac{\pi \left(2 x + 1\right) u}{2 N} \right]
-\cos \left[\frac{\pi \left(2 y + 1\right) v}{2 N} \right]
-\end{equation}
-Ambas implementaciones se encuentran en el anexo de éste trabajo bajo las figuras Listing \ref{code:dct} y Listing \ref{code:idct}.
-%-- UNFILTERED
-
+\pagebreak
 \section{Resultados}
-
+Al ejecutar el código para comprimir y descomprimir el archivo \textit{11.wav}, obtuvimos los siguientes resultados.
 \subsection{Compresión}
-Al ejecutar el codigo, se obtuvo la siguiente compresion de la muestra No 11:
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[interpolate=false, scale=0.09]{plots/11_epsi_compression}
-    \caption{Factor de compresion}
+    \includegraphics[interpolate=false, scale=0.65]{plots/11_epsi_compression}
+    \caption{Factor de compresión}
     \label{fig:comp_fact}
 \end{figure}
 
-\subsection{Relacion entre bits mapeados y compresión}
+\pagebreak
+
+\subsection{Relación entre bits mapeados y compresión}
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[interpolate=false, scale=0.09]{plots/11_bits_compression}
-    \caption{Relacion entre factor de compresion y bits utilizados para el mapeo}
+    \includegraphics[interpolate=false, scale=0.65]{plots/11_bits_compression}
+    \caption{Relación entre factor de compresión y bits utilizados para el mapeo}
     \label{fig:fact_bits}
 \end{figure}
 
-\subsection{Distorsión cuadratica media}
+\pagebreak
+
+\subsection{Distorsión cuadrática media}
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[interpolate=false, scale=0.09]{plots/11_epsi_distortion}
-    \caption{Distorcion cuadratica media respecto de \textit{epsilon}}
+    \includegraphics[interpolate=false, scale=0.65]{plots/11_epsi_distortion}
+    \caption{Distorsión cuadrática media respecto de \textit{epsilon}}
     \label{fig:dist_epsi}
 \end{figure}
 
+\pagebreak
+
+\subsection{Distorsión}
+
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[interpolate=false, scale=0.09]{plots/11_bits_distortion}
+    \includegraphics[interpolate=false, scale=0.65]{plots/11_bits_distortion}
     \caption{Distorcion cuadratica media respecto de la cantidad de bits utilizados}
     \label{fig:dist_bit}
 \end{figure}
 
-
-\section{Prueba completa}
-
-A continuación mostramos el resultado del algoritmo de compresión al ser ejecutado sobre un set de 10 imágenes.
-
-El promedio de compresión fue de aproximadamente 13\% y hemos tenido algunos casos en los cuales la imagen comprimida resultó ser de mayor tamaño que la original (aquellos en los que la compresión es negativa).
-
-\begin{lstlisting}[language=bash]
-make all
-env/bin/python src/runner.py all
-Running image:  source_images/01_mandril.png
-Compression gain: 20.34 %
-Running image:  source_images/02_lena.png
-Compression gain: -4.34 %
-Running image:  source_images/03_einstein.png
-Compression gain: 17.31 %
-Running image:  source_images/04_flower.png
-Compression gain: 20.99 %
-Running image:  source_images/05_loro.png
-Compression gain: 14.45 %
-Running image:  source_images/06_lena_face.png
-Compression gain: -11.93 %
-Running image:  source_images/07_puppy.png
-Compression gain: 34.93 %
-Running image:  source_images/08_random.png
-Compression gain: -0.47 %
-Running image:  source_images/09_picaflor.png
-Compression gain: 20.61 %
-Running image:  source_images/10_bebe.png
-Compression gain: 1.17 %
-\end{lstlisting}
-
-\begin{figure}[!htbp]
-    \centering
-    \subfloat[01 mandril]{{ \includegraphics[interpolate=false, scale=0.4]{source_images/01_mandril} }}
-    \qquad
-    \subfloat[02 lena]{{ \includegraphics[interpolate=false, scale=0.2]{source_images/02_lena} }}
-    \label{fig:all_img1}
-\end{figure}
-
-\begin{figure}[!htbp]
-    \centering
-    \subfloat[03 einstein]{{ \includegraphics[interpolate=false, scale=0.6]{source_images/03_einstein} }}
-    \qquad
-    \subfloat[04 flower]{{ \includegraphics[interpolate=false, scale=0.4]{source_images/04_flower} }}
-    \\
-    \subfloat[05 loro]{{ \includegraphics[interpolate=false, scale=0.6]{source_images/05_loro} }}
-    \qquad
-    \subfloat[06 lena face]{{ \includegraphics[interpolate=false, scale=0.2]{source_images/06_lena_face} }}
-    \\
-    \subfloat[07 puppy]{{ \includegraphics[interpolate=false, scale=0.4]{source_images/07_puppy} }}
-    \qquad
-    \subfloat[08 random]{{ \includegraphics[interpolate=false, scale=0.2]{source_images/08_random} }}
-    \\
-    \subfloat[09 picaflor]{{ \includegraphics[interpolate=false, scale=0.4]{source_images/09_picaflor} }}
-    \qquad
-    \subfloat[10 bebe]{{ \includegraphics[interpolate=false, scale=0.2]{source_images/10_bebe} }}
-    \label{fig:all_img2}
-\end{figure}
-
-\section{Observaciones}
-
-\subsection{Limitaciones}
-Descubrimos que debido a un problema con el algoritmo implementado, aquellas imágenes cuyas dimensiones no sean múltiplos de 8 contienen pérdida de información en la región izquierda e inferior.
-
-A su vez, a la hora de querer recuperar una imagen codificada, descubrimos que nuestra implementación de la transformada inversa discreta del coseno es bastante lenta, tardando cerca de 20 segundos para recuperar la información de una imagen de aproximadamente 512x512 pixeles. 
-
-\subsection{Lena}
-\em{Lena} es una imagen que se utiliza recurrentemente en el análisis de algoritmos de procesamiento de imágenes\cite{wikipedia_Lena} debido a su detalle, sombreado, regiones de color planas y texturas.
-
-Hemos descubierto que en ciertos casos (principalmente en fotos de Lena) el método de compresión genera imágenes de mayor peso que las originales, haciendo la compresión inefectiva. En la sección anterior podemos ver éste fenómeno.
-
-\subsection{Mejoras}
-Si bien codificamos la implementación original del algoritmo DCT, encontramos que existen variaciones sobre el algoritmo de la transformada discreta del coseno:
-
-\subsubsection{Fast 2D-DCT}
-
-Se puede implementar DCT en 2 dimensiones aplicando el algoritmo DCT a todas las filas de cada bloque y luego aplicar DCT a cada columna del bloque resultante. La complejidad de dicho algoritmo disminuye de $O(n^4)$ a $O(n^3)$\cite{unix4lyfe_DCT}.
-
-\subsubsection{Algoritmo de Arai-Angui-Nakajima}
-
-La idea es la misma que la del algoritmo anterior pero se reemplaza la implementación de la transformada discreta del coseno en 1 dimensión por una implementación similar a la transformada rápida de Fourier resultando en un algoritmo de complejidad $O(n\log{n})$. En nuestro trabajo, usamos ésta implementación para generar el reporte completo de compresiones ya que usando el original nos tomaba mucho tiempo. Para generar el reporte individual, usamos la implementación original\cite{unix4lyfe_AAN}\cite{unix4lyfe_DCT}.
+\pagebreak
 
 \section{Conclusión}
-Mediante el uso de la transformada de coseno y el algoritmo de codificación de Huffman hemos podido comprobar, dentro del conjunto de imágenes que conseguimos, que se puede comprimir (sin perdida de calidad) utilizando transformadas. La principal ventaja de utilizar DCT es que se "juntan" los datos de imagen de un bloque en un número casi óptimo de coeficientes descorrelacionados, dando lugar a una compresión significativa en algoritmos de codificacion aritmetica como Huffman.
-
-La variacion que propusimos es aplicar un filtro, que si bien se pierde calidad en imagen final, luego de aplicar la antitransformada para conseguir la imagen original nuevamente, se gana una compresion que es inversamente proporcional al numero de frecuencias filtradas.
+Pudimos observar que cuantos menos bits utilizamos a la hora de cuantizar los coeficientes resultantes de la FFT de las muestras presentadas obtenemos un factor de compresión considerable pero, a su vez, encontramos que tras descomprimir lo obtenido previamente el sonido resultante tiene un gran número de ruido. \\
+Por otro lado encontramos que a mayores números de épsilon, más apagado se escucha el audio descomprimido ya que al tener números altos de épsilon estamos filtrando una mayor amplitud del sonido resultando en la pérdida de contenido y definición. \\
+Por último, encontramos que por alguna razón que desconocemos, todos los audios que comprimimos, al ser descomprimidos tienen una gran caída de volumen en el medio de la grabación. 
 
 \section{Anexo}
+\subsection{Código}
+Dentro de la carpeta \textit{src} se encuentran los archivos de octave utilizados en la implementación del trabajo práctico:
+\begin{itemize}
+    \item compress.m: código para comprimir un archivo de sonido
+    \item uncompress.m: código para descomprimir un archivo de sonido
+    \item main.m: archivo que comprime y descomprime los archivos de prueba
+    \item plot\_fixed\_bits.m: código para generar los gráficos
+    \item plot\_fixed\_epsilon.m: código para generar los gráficos
+    \item stats.m: código que genera estadísticas sobre la compresión/descompresión a ser utilizadas en los gráficos
+    \item uncompress.m: código para descomprimir un archivo comprimido mediante el método propuesto
+    \item huffman.m y myhuffmandict.m: código relacionado a la codificación huffman\cite{huffman}
 
-\subsection{Como usar el codigo}
-\subsubsection{Instalar}
-\begin{lstlisting}[language=bash]
-    git clone git@bitbucket.org:iLNaNo/mna-fft.git
-    cd mna-fft
-    make install
-\end{lstlisting}
-\subsubsection{Ejecutar}
-\begin{lstlisting}[language=bash]
-    make all
-    make flower
-    make ...
-\end{lstlisting}
-
-\subsection{Codigo Fuente}
-
-\lstinputlisting[style=Style1, firstline=7, lastline=22, caption=DCT, label=code:dct]{src/dct_2.py}
-\break
-\lstinputlisting[style=Style1, firstline=21, lastline=53, caption=Funci\'{o}n complen, label=code:complen]{src/compress.py}
-\lstinputlisting[style=Style1, firstline=7, lastline=18, caption=Huffman, label=code:huffman]{src/compress.py}
-\break
-\lstinputlisting[style=Style1, firstline=25, lastline=39, caption=DCT inversa, label=code:idct]{src/dct_2.py}
-\lstinputlisting[style=Style1, firstline=42, lastline=46, caption=(I)DCT redondeado, label=code:quantize]{src/dct_2.py}
-
+\end{itemize}
 
 \printbibliography
 
