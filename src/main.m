@@ -1,12 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Input
-% epsilon = small value to remove noise
-%	L = number of bits for quantization
-%	plots_on = bigger than 0 if you want to generate plots
+%   epsilon = small value to remove noise
+%   L = number of bits for quantization
+%   plots_on = bigger than 0 if you want to generate plots
 %
 % Output
-% Generates all compressed audio files
+%   Generates all compressed audio files
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
