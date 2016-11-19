@@ -23,7 +23,6 @@ function main(epsilon, L, plots_on)
       plot_fixed_epsilon(wav_file, 0, 10, 2, L);
     elseif     
       file_name = strcat(strcat("../resources/wav/", wav_file), ".wav");
-      file_name
       [original, fs, n_bits] = wavread(file_name);
       [compressed, scale] = compress(wav_file, epsilon, L);
       uncompressed = uncompress(compressed, wav_file);       
