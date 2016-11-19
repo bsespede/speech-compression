@@ -104,90 +104,43 @@ P_{x,y} =
 Ambas implementaciones se encuentran en el anexo de éste trabajo bajo las figuras Listing \ref{code:dct} y Listing \ref{code:idct}.
 %-- UNFILTERED
 
-\section{Compresión}
-\subsection{Sin filtro}
+\section{Resultados}
 
-Al aplicar la DCT a una imagen prueba y luego pasarla por el algoritmo estimador de compresión, descubrimos que en la siguiente imagen se logra un 21\% de compresión.
-\begin{lstlisting}[language=bash]
-make flower
-env/bin/python src/runner.py source_images/04_flower.png
-Running image:  source_images/04_flower.png
-Compression gain: 20.98 %
-\end{lstlisting}
+\subsection{Compresión}
+Al ejecutar el codigo, se obtuvo la siguiente compresion de la muestra No 11:
 
 \begin{figure}[!htbp]
     \centering
-    \subfloat[original]{{ \includegraphics[interpolate=false, scale=0.08]{img/big_orig} }} \\
-    \subfloat[frecuencias]{{ \includegraphics[interpolate=false, scale=0.08]{img/big_freq} }} \\
-    \subfloat[recuperada]{{ \includegraphics[interpolate=false, scale=0.08]{img/big_comp} }}
-    \caption{Imágenes en el transcurso del algoritmo}
-    \label{fig:original}
+    \includegraphics[interpolate=false, scale=0.09]{plots/11_epsi_compression}
+    \caption{Factor de compresion}
+    \label{fig:comp_fact}
 \end{figure}
 
-%-- FILTERED MODERATE
-
-\subsection{Filtro moderado}
-
-Usando un filtro que retiene únicamente un sector de las frecuencias logramos una mejora en la compresión, pero al reconstruir la imagen utilizando la transformada inversa del coseno podemos notar un deterioro grande de la imagen.
-
-\lstinputlisting[style=Style1, firstline=11, lastline=25, caption=Matriz de filtro moderado, label=code:filter_m]{src/runner.py}
-
-\begin{lstlisting}[language=bash]
-make flower
-env/bin/python src/runner.py source_images/04_flower.png
-Running image:  source_images/04_flower.png
-Compression gain: 27.49 %
-\end{lstlisting}
+\subsection{Relacion entre bits mapeados y compresión}
 
 \begin{figure}[!htbp]
     \centering
-    \subfloat[no filtrada]{{ \includegraphics[interpolate=false, scale=0.09]{img/big_freq} }}
-    \qquad
-    \subfloat[moderadamente filtrada]{{ \includegraphics[interpolate=false, scale=0.09]{img/big_freq_fm} }}
-    \caption{Comparación de imágenes de frecuencias}
-    \label{fig:freq_fm}
+    \includegraphics[interpolate=false, scale=0.09]{plots/11_bits_compression}
+    \caption{Relacion entre factor de compresion y bits utilizados para el mapeo}
+    \label{fig:fact_bits}
+\end{figure}
+
+\subsection{Distorsión cuadratica media}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[interpolate=false, scale=0.09]{plots/11_epsi_distortion}
+    \caption{Distorcion cuadratica media respecto de \textit{epsilon}}
+    \label{fig:dist_epsi}
 \end{figure}
 
 \begin{figure}[!htbp]
     \centering
-    \subfloat[no filtrada]{{ \includegraphics[interpolate=false, scale=0.09]{img/big_comp} }}
-    \qquad
-    \subfloat[moderadamente filtrada]{{ \includegraphics[interpolate=false, scale=0.09]{img/big_comp_fm} }}
-    \caption{Comparación de imágenes}
-    \label{fig:comp_fm}
+    \includegraphics[interpolate=false, scale=0.09]{plots/11_bits_distortion}
+    \caption{Distorcion cuadratica media respecto de la cantidad de bits utilizados}
+    \label{fig:dist_bit}
 \end{figure}
 
-%-- FILTERED HEAVY
-
-\subsection{Filtro pesado}
-
-Al aplicar un filtro más agresivo (descartar todos salvo un elemento de las frecuencias generadas en cada bloque por el algoritmo de la transformada discreta del coseno) notamos una compresión enorme (92.29\%). Sin embargo, la imagen se encuentra totalmente deteriorada dado que en cada sector de 8x8 hay un solo color.
-\lstinputlisting[style=Style1, firstline=28, lastline=42, caption=Matriz de filtro pesado, label=code:filter_h]{src/runner.py}
-
-\begin{lstlisting}[language=bash]
-make flower
-env/bin/python src/runner.py source_images/04_flower.png
-Running image:  source_images/04_flower.png
-Compression gain: 92.29 %
-\end{lstlisting}
-
-\begin{figure}[!htbp]
-    \centering
-    \subfloat[no filtrada]{{ \includegraphics[interpolate=false, scale=0.09]{img/big_freq} }}
-    \qquad
-    \subfloat[muy filtrada]{{ \includegraphics[interpolate=false, scale=0.09]{img/big_freq_fh} }}
-    \caption{Comparacion de imagenes de frecuencias}
-    \label{fig:freq_fh}
-\end{figure}
-
-\begin{figure}[!htbp]
-    \centering
-    \subfloat[no filtrada]{{ \includegraphics[interpolate=false, scale=0.09]{img/big_comp} }}
-    \qquad
-    \subfloat[muy filtrada]{{ \includegraphics[interpolate=false, scale=0.09]{img/big_comp_fh} }}
-    \caption{Comparación de imágenes}
-    \label{fig:comp_fh}
-\end{figure}
 
 \section{Prueba completa}
 
