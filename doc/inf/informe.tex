@@ -63,7 +63,7 @@ tabsize=2, % Number of spaces per tab in the code
 \endtitlepage
 
 \begin{abstract}
-En este trabajo intentaremos un simple compresor del habla. Nos basaremos en \textit{2nd International Conference on Computer and Communication Technology}, donde se propone un esquema muy simple de compresión basado en tres pasos: i) transformación, ii) cuantificación, iii) codificación Huffman.
+En este trabajo implementaremos un simple compresor del habla. Nos basaremos en \textit{2nd International Conference on Computer and Communication Technology}, donde se propone un esquema muy simple de compresión basado en tres pasos: transformación, cuantificación y codificación Huffman.
 \end{abstract}
 \break
 \tableofcontents
@@ -74,13 +74,15 @@ Para realizar la compresión seguimos los siguientes pasos:
 \item Obtener la FFT de la muestra de audio.
 \item De los coeficientes obtenidos se guarda la mitad +1.
 \item Los coeficientes cuyo valor absoluto es menor que \textit{Epsilon} se los hace 0.
-\item Cuantificamos la parte real y la imaginaria de los coeficientes con L bits.
+\item Cuantificamos la parte real y la imaginaria de los coeficientes con $L$ bits.
 \item Codificamos con el algoritmo de Huffman los coeficientes.
 \end{enumerate}
-Para recuperar la grabacion, hace falta decodificar el archivo generado previamente y aplicar IFFT inversa.
-\section{EJEMPLO RUNTIME BRBRBRBRBRBBRAULIUUUUUUUUS}
-Se utilizó la versión sin optimizar tanto de la transformada como de su inversa.
-
+Para recuperar la grabación, hace falta de-codificar la información generada previamente y aplicar IFFT inversa.
+\section{Ejemplo compresión y descompresión}
+Para realizar la compresión y descompresión de un archivo de sonido, abrir octave dentro del directorio \textit{src} del proyecto y ejecutar lo siguiente:
+\begin{lstlisting}
+    [compressed, scale] = 
+\end{lstlisting}
 \begin{equation}
 \label{eq:dct}
 F_{u,v} =
