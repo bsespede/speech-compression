@@ -63,7 +63,7 @@ tabsize=2, % Number of spaces per tab in the code
 \endtitlepage
 
 \begin{abstract}
-En éste trabajo se busca analizar la compresión de una imagen en escala de grises de 8-bits mediante el uso de la transformada discreta del coseno en dos dimensiones y codificación mediante el algoritmo de Huffman. A su vez, exploramos distintas formas de aumentar la compresión con pérdida de calidad mediante el uso de filtros luego de haber aplicado DCT.
+En este trabajo intentaremos un simple compresor del habla. Nos basaremos en \textit{2nd International Conference on Computer and Communication Technology}, donde se propone un esquema muy simple de compresión basado en tres pasos: i) transformación, ii) cuantificación, iii) codificación Huffman.
 \end{abstract}
 \break
 \tableofcontents
@@ -71,16 +71,16 @@ En éste trabajo se busca analizar la compresión de una imagen en escala de gri
 \section{Procedimiento}
 Para realizar la compresión seguimos los siguientes pasos:
 \begin{enumerate}
-\item Aplicarle DCT a cada bloque de 8x8 pixeles de la imagen.
-\item Codificar los pixeles resultantes usando Huffman.
-\item Luego deberíamos guardar la codificación junto con metadata para poder reconstruir la imagen. Ésta etapa se realizará usando el algoritmo especificado en Listing \ref{code:complen}.
+\item Obtener la FFT de la muestra de audio.
+\item De los coeficientes obtenidos se guarda la mitad +1.
+\item Los coeficientes cuyo valor absoluto es menor que \textit{Epsilon} se los hace 0.
+\item Cuantificamos la parte real y la imaginaria de los coeficientes con L bits.
+\item Codificamos con el algoritmo de Huffman los coeficientes.
 \end{enumerate}
-Para recuperar la imagen, hace falta decodificar el archivo generado previamente y aplicar DCT inversa.
-\section{Transformada discreta de coseno}
-Se utilizó la versión sin optimizar tanto de la transformada como de su inversa, y
- se usaron bloques de 8x8 pixeles, por lo que $N = 8$.
- 
- Fórmula de la transformada discreta de coseno\cite{mathworks_DCT}\cite{wikipedia_DCT}:
+Para recuperar la grabacion, hace falta decodificar el archivo generado previamente y aplicar IFFT inversa.
+\section{EJEMPLO RUNTIME BRBRBRBRBRBBRAULIUUUUUUUUS}
+Se utilizó la versión sin optimizar tanto de la transformada como de su inversa.
+
 \begin{equation}
 \label{eq:dct}
 F_{u,v} =

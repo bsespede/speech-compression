@@ -1,26 +1,26 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Input
-%	wav_file = name of the input wav file in resources folder
-% epsilon = small value to remove noise
-%	L = number of bits for quantization
+%   wav_file = name of the input wav file in resources folder
+%   epsilon = small value to remove noise
+%   L = number of bits for quantization
 %
-%	Output
-%	compressed = compressed audio, truncated and quantized
-%	scaled = compressed audio scaled to the bit number
+%   Output
+%   compressed = compressed audio, truncated and quantized
+%   scaled = compressed audio scaled to the bit number
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [compressed, scaled] = compress(wav_file, epsilon, L)
 
-    %Open wav file
+    % Open wav file
     file_name = strcat(strcat("../resources/wav/", wav_file), ".wav");
     [y, fs, nbits] = wavread(file_name);
 
-    %Calculate FFT coeffs
+    % Calculate FFT coeffs
     coeffs = fft(y);
 
-    %Resize coeff and trunc smaller than epsilon values
+    % Resize coeff and trunc smaller than epsilon values
     trunclen = ceil(length(coeffs)/2) + 1;
     halfcoeffs = 1:trunclen;
 
@@ -28,10 +28,10 @@ function [compressed, scaled] = compress(wav_file, epsilon, L)
         if (abs(coeffs(j)) < epsilon)
             coeffs(j) = 0;
         endif
-    endfor    
+    endfor
 
-    %Uniform quantification with L bits
-    %https://www.youtube.com/watch?v=z2R8c5945p0
+    % Uniform quantification with L bits
+    % https://www.youtube.com/watch?v=z2R8c5945p0
     scale = 2^L;
 
     real_coeffs = real(coeffs);
@@ -55,10 +55,10 @@ function [compressed, scaled] = compress(wav_file, epsilon, L)
         if (imag_scale == scale)
             imag_scale = imag_scale - 1;
         endif
-        
+
         real_part = min_real + real_scale * real_level;
         imag_part = min_imag + imag_scale * imag_level;
-        
+
         compressed(j) = real_part + i*imag_part;
         scaled(j) = real_scale + i*imag_scale;
     endfor
